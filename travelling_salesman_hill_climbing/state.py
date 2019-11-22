@@ -15,5 +15,8 @@ class State:
     def create_state():
       return State(city, dist, depth, dad)
 
+    def update_depth(self, depth):
+      self.depth = depth
+
     def final_state(self, begin):
       return self.station == begin

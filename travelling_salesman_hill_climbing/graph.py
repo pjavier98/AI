@@ -6,7 +6,7 @@ class Graph:
     self.adj_list = None
     self.visited_states = [0] * 11
     self.solution = []
-    
+    self.total_cost = 0
     
   def generate_graph(self, distances_list):
     graph = []
@@ -19,7 +19,6 @@ class Graph:
         index = int(j) - 1
         
         dist = distances_list[i][index]
-        # print('distance: ' + str(dist))
         
         state = State(int(j), dist)
         adj_list.append(state)
@@ -29,6 +28,39 @@ class Graph:
     input_adj_list.close()
     return graph
 
+  def check_hamiltonian_cycle(self, possible_solution, distances_list, begin):
+    cost = 0
+
+    for i in range(9):
+      previous_state = possible_solution[i].city
+      current_state = possible_solution[i + 1].city
+
+      dist = distances_list[previous_state - 1][current_state - 1]
+      if (dist == - 1):
+        return 0
+      else:
+        cost += dist
+
+    # Cost from the last to the begin
+
+    cost += distances_list[current_state - 1][begin - 1]
+    if (cost < self.total_cost):
+      self.total_cost = cost
+      self.solution.clear()
+      self.solution.extend(possible_solution)
+      return 1
+    return 0
+
+  def update_initial_cost(self, distances_list):
+    cost = 0
+    for i in range(9):
+      previous_state = self.solution[i].city
+      current_state = self.solution[i + 1].city
+
+      dist = distances_list[previous_state - 1][current_state - 1]
+      cost += dist
+    self.total_cost = cost
+
   def print_graph(self):
     for i in range(11):
       city = str(i)
@@ -36,3 +68,12 @@ class Graph:
       for j in self.adj_list[i]:
         print("(" + str(j.city) + ", " + str(j.dist) + ")", end=" ")
       print()
+
+  def print_best_way(self, flag):
+    if flag:
+      print('Hamiltonian Cycle Initial State: cost: {}'.format(self.total_cost))  
+    else:
+      print('Hamiltonian Cycle: cost: {}'.format(self.total_cost))
+    for i in self.solution:
+      print(i.city, end=" -> ")
+    print('//', end='\n')

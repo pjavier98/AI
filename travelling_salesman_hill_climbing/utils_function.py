@@ -21,8 +21,4 @@ def read_files(path):
 def print_files(file):
   for i in file:
     print(i)
-
-def print_best_way(solution):
-  for state in solution:
-    print(str(state))
     
