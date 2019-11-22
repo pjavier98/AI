@@ -8,7 +8,7 @@ class Graph:
     self.solution = []
     
     
-  def generate_graph(self, distances_list, colors_list, begin, goal):
+  def generate_graph(self, distances_list, colors_list, goal):
     graph = []
     graph.append([])
     input_adj_list = open('files/adj_list.txt', 'r')

@@ -36,9 +36,11 @@ def a_star_search(graph, initial_state, goal):
 
         if not current_state.same_line(state, graph):
           cost += 2
+          state.update_color(set(current_state.color) & set(state.color))
+        else:
+          state.update_color(current_state.color)
 
         state.dad = current_state
-        state.update_color(current_state.color)
         state.update_total_cost(cost) 
         queue.put([cost, state.station, state])
 
@@ -68,14 +70,14 @@ def main():
   
   # Creating the Graph
   graph = Graph()
-  graph.adj_list = graph.generate_graph(distances_list, colors_list, begin, goal)
+  graph.adj_list = graph.generate_graph(distances_list, colors_list, goal)
 
   # Creating the initial state
   initial_state = State(int(begin), 0, 0, colors_list[begin - 1], begin)
   initial_state.dad = initial_state
 
   # Doing the A* search
-  solution = a_star_search(graph, initial_state, goal)
+  a_star_search(graph, initial_state, goal)
 
   # Prining the best way
   print_best_way(graph.solution)
