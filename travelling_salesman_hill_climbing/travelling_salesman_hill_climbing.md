@@ -25,7 +25,7 @@ def search_hamiltonian_cycle(graph, initial_state, begin, distances_list):
       graph.solution.insert(0, initial_state.dad)
       initial_state = initial_state.dad
     flag = 0
-    graph.update_initial_cost(distances_list)
+    graph.update_cost(distances_list, begin)
     return
 
   for state in graph.adj_list[initial_state.city]:
@@ -72,22 +72,20 @@ def hill_climbing(graph, begin, distances_list, amount_permutations):
 def main():
   print('Select the start city: [1-10]: ', end='')
   begin = read_input(0, 10)
-
-  print('Select the numbers of permutations: [0-10e6]: ', end='')
-  amount_permutations = read_input(0, 1000000)
+  print()
 
   distances_list = read_files('files/distances.txt')
 
   graph = Graph()
   graph.adj_list = graph.generate_graph(distances_list)
 
-  initial_state = State(int(begin), 0)
+  initial_state = State(int(begin))
   initial_state.dad = initial_state
 
   search_hamiltonian_cycle(graph, initial_state, begin, distances_list)
 
-  graph.print_best_way(1)
-  hill_climbing(graph, begin, distances_list, amount_permutations)
+  graph.print_best_way(True)
+  hill_climbing(graph, begin, distances_list, 30000)
 main()
 ```
 
@@ -113,9 +111,7 @@ class Graph:
       for j in input_adj_list.readline().split():
         index = int(j) - 1
         
-        dist = distances_list[i][index]
-        
-        state = State(int(j), dist)
+        state = State(int(j))
         adj_list.append(state)
 
       graph.append(adj_list)
@@ -146,14 +142,14 @@ class Graph:
       return 1
     return 0
 
-  def update_initial_cost(self, distances_list):
+  def update_cost(self, distances_list, begin):
     cost = 0
     for i in range(9):
       previous_state = self.solution[i].city
       current_state = self.solution[i + 1].city
-
-      dist = distances_list[previous_state - 1][current_state - 1]
-      cost += dist
+      cost += distances_list[previous_state - 1][current_state - 1]
+    
+    cost += distances_list[begin - 1][current_state - 1]
     self.total_cost = cost
 
   def print_graph(self):
@@ -161,8 +157,8 @@ class Graph:
       city = str(i)
       print(city + " -> ", end="")
       for j in self.adj_list[i]:
-        print("(" + str(j.city) + ", " + str(j.dist) + ")", end=" ")
-      print()
+        print(str(j.city), end=" -> ")
+      print('//')
 
   def print_best_way(self, flag):
     if flag:
@@ -178,20 +174,19 @@ class Graph:
 ```
 class State:
   
-    def __init__(self, city, dist):
+    def __init__(self, city):
         self.city = city
-        self.dist = dist
         self.depth = 0
         self.dad = None
 
     def __str__(self):
       # childrens_id = str_children()
-      return ('city: {}\ndist:  {}\ndepth: {}\ndad: {}\n'
-            .format(self.city, self.dist, self.depth, self.dad.city
+      return ('city: {}\ndepth: {}\ndad: {}\n'
+            .format(self.city, self.depth, self.dad.city
       ))
 
     def create_state():
-      return State(city, dist, depth, dad)
+      return State(city, depth, dad)
 
     def update_depth(self, depth):
       self.depth = depth

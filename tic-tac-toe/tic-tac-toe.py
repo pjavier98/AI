@@ -1,5 +1,6 @@
 from board import *
 from util import *
+from random import randint
 
 def game(board, isHuman):
   while True:
@@ -26,6 +27,8 @@ def game(board, isHuman):
         print('AI turns')
         # Find and update the best row and column based on the board
         board.findBestMove()
+        print('row: ', board.bestMoveRow)
+        print('column: ', board.bestMoveColumn)
         board.update_field(-1, -1, False)
       print('\n', str(board))
     else:
@@ -37,7 +40,12 @@ def main():
   print('# Welcome to the tic-tac-toe game #')
   print('###################################\n')
 
+  row = randint(0, 2)
+  column = randint(0, 2)
+
   board = Board()
+
+  board.update_initial_state(row, column)
   
   # False -> IA start
   print(str(board))

@@ -7,6 +7,7 @@
 ```
 from board import *
 from util import *
+from random import randint
 
 def game(board, isHuman):
   while True:
@@ -33,6 +34,8 @@ def game(board, isHuman):
         print('AI turns')
         # Find and update the best row and column based on the board
         board.findBestMove()
+        print('row: ', board.bestMoveRow)
+        print('column: ', board.bestMoveColumn)
         board.update_field(-1, -1, False)
       print('\n', str(board))
     else:
@@ -44,7 +47,12 @@ def main():
   print('# Welcome to the tic-tac-toe game #')
   print('###################################\n')
 
+  row = randint(0, 2)
+  column = randint(0, 2)
+
   board = Board()
+
+  board.update_initial_state(row, column)
   
   # False -> IA start
   print(str(board))
@@ -64,7 +72,7 @@ class Board:
 		self.depth = 0
 		self.board = [ 
 			[ '_', '_', '_' ], 
-			[ '_', 'o', '_' ], 
+			[ '_', '_', '_' ], 
 			[ '_', '_', '_' ] 
 		]
 
@@ -75,6 +83,9 @@ class Board:
 							table[1][0], table[1][1], table[1][2],
 							table[2][0], table[2][1], table[2][2]))
 
+	def update_initial_state(self, row, column):
+  		self.board[row][column] = self.opponent
+
 	def update_field(self, row, column, isHuman):
 		if isHuman:
 			self.board[row][column] = self.player
@@ -84,7 +95,7 @@ class Board:
 	def isMovesLeft(self): 
 		for i in range(3):
 			for j in range(3):
-				if (self.board[i][j]=='_'):
+				if (self.board[i][j] == '_'):
 					return True
 		return False 
 
@@ -110,9 +121,9 @@ class Board:
 		# Checking for Diagonals for X or O victory. 
 		if table[0][0] == table[1][1] and table[1][1] == table[2][2]:
 			if table[0][0] == self.player:
-				return 10; 
+				return 10
 			elif table[0][0] == self.opponent:
-				return -10; 
+				return -10 
 
 		if table[0][2] == table[1][1] and table[1][1] == table[2][0]: 
 			if table[0][2] == self.player:
@@ -140,13 +151,13 @@ class Board:
 
 		# If this maximizer's move 
 		if isMax:
-			best = -1000; 
+			best = -1000
 			
 			# Traverse all cells 
 			for i in range(0, 3):
 				for j in range(0, 3):
 					# Check if cell is empty 
-					if (self.board[i][j]=='_'):
+					if (self.board[i][j] == '_'):
 						# Make the move 
 						self.board[i][j] = self.player
 
@@ -159,13 +170,13 @@ class Board:
 
 		# If this minimizer's move 
 		else:
-			best = 1000; 
+			best = 1000
 			
 			# Traverse all cells
 			for i in range(0, 3):
 				for j in range(0, 3):
 					# Check if cell is empty 
-					if (self.board[i][j]=='_'): 
+					if (self.board[i][j] == '_'): 
 						# Make the move 
 						self.board[i][j] = self.opponent
 
@@ -182,24 +193,29 @@ class Board:
 		# Traverse all cells, evaluate minimax function for 
 		# all empty cells. And return the cell with optimal value. 
 		for i in range(0, 3):
-				for j in range(0, 3):
-					# Check if cell is empty 
-					if self.board[i][j]=='_': 
-						# Make the move 
-						self.board[i][j] = self.player 
+			for j in range(0, 3):
+				# Check if cell is empty 
+				if self.board[i][j] == '_': 
+					# Make the move 
+					self.board[i][j] = self.opponent 
 
-						# Compute evaluation function for this move
-						moveVal = self.minimax(0, False) 
+					# Compute evaluation function for this move
+					moveVal = self.minimax(0, True) 
 
-						# Undo the move 
-						self.board[i][j] = '_' 
+					# Undo the move 
+					self.board[i][j] = '_' 
 
-						# If the value of the current move is 
-						# more than the best value, then update best
-						if moveVal > bestVal: 
-							self.bestMoveRow = i 
-							self.bestMoveColumn = j 
-							bestVal = moveVal
+					# If the value of the current move is 
+					# more than the best value, then update best
+					if moveVal > bestVal: 
+						# print('testando')
+						# for i in range(3):
+						# 		print(self.board[i])
+						# print('i: ', i)
+						# print('j: ', j)
+						self.bestMoveRow = i 
+						self.bestMoveColumn = j 
+						bestVal = moveVal
 ```
 
 ### util.py

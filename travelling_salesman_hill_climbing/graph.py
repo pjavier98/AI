@@ -18,9 +18,7 @@ class Graph:
       for j in input_adj_list.readline().split():
         index = int(j) - 1
         
-        dist = distances_list[i][index]
-        
-        state = State(int(j), dist)
+        state = State(int(j))
         adj_list.append(state)
 
       graph.append(adj_list)
@@ -51,14 +49,14 @@ class Graph:
       return 1
     return 0
 
-  def update_initial_cost(self, distances_list):
+  def update_cost(self, distances_list, begin):
     cost = 0
     for i in range(9):
       previous_state = self.solution[i].city
       current_state = self.solution[i + 1].city
-
-      dist = distances_list[previous_state - 1][current_state - 1]
-      cost += dist
+      cost += distances_list[previous_state - 1][current_state - 1]
+    
+    cost += distances_list[begin - 1][current_state - 1]
     self.total_cost = cost
 
   def print_graph(self):
@@ -66,8 +64,8 @@ class Graph:
       city = str(i)
       print(city + " -> ", end="")
       for j in self.adj_list[i]:
-        print("(" + str(j.city) + ", " + str(j.dist) + ")", end=" ")
-      print()
+        print(str(j.city), end=" -> ")
+      print('//')
 
   def print_best_way(self, flag):
     if flag:

@@ -18,7 +18,7 @@ def search_hamiltonian_cycle(graph, initial_state, begin, distances_list):
       graph.solution.insert(0, initial_state.dad)
       initial_state = initial_state.dad
     flag = 0
-    graph.update_initial_cost(distances_list)
+    graph.update_cost(distances_list, begin)
     return
 
   for state in graph.adj_list[initial_state.city]:
@@ -65,20 +65,18 @@ def hill_climbing(graph, begin, distances_list, amount_permutations):
 def main():
   print('Select the start city: [1-10]: ', end='')
   begin = read_input(0, 10)
-
-  print('Select the numbers of permutations: [0-10e6]: ', end='')
-  amount_permutations = read_input(0, 1000000)
+  print()
 
   distances_list = read_files('files/distances.txt')
 
   graph = Graph()
   graph.adj_list = graph.generate_graph(distances_list)
 
-  initial_state = State(int(begin), 0)
+  initial_state = State(int(begin))
   initial_state.dad = initial_state
 
   search_hamiltonian_cycle(graph, initial_state, begin, distances_list)
 
-  graph.print_best_way(1)
-  hill_climbing(graph, begin, distances_list, amount_permutations)
+  graph.print_best_way(True)
+  hill_climbing(graph, begin, distances_list, 30000)
 main()
