@@ -1,16 +1,5 @@
 from board import *
-
-def read_input(lower, upper):
-  while True:
-    try:
-      number = int(input())
-      if (number >= lower and number <= upper):
-        return number
-    except:
-      pass
-    print("Invalid input, please choose again from [" + str(lower) + "-" + str(upper) + "]")
-
-# def valid_moviment(row, column):
+from util import *
 
 def game(board, isHuman):
   while True:

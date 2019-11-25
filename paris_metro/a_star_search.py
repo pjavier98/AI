@@ -1,6 +1,6 @@
 from state import *
 from graph import * 
-from utils_function import *
+from util import *
 from queue import PriorityQueue
 
 def a_star_search(graph, initial_state, goal):

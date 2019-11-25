@@ -1,4 +1,4 @@
-from utils_function import *
+from util import *
 from graph import *
 from state import *
 from random import randint
