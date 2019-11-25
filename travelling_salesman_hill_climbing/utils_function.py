@@ -1,12 +1,12 @@
-def read_city():
+def read_input(lower, upper):
   while True:
     try:
       number = int(input())
-      if (number >= 1 and number <= 10):
+      if (number >= lower and number <= upper):
         return number
     except:
       pass
-    print("Invalid city, please choose again from [1-10]")
+    print("Invalid input, please choose again from [" + str(lower) + "-" + str(upper) + "]")
 
 def read_files(path):
   fileDistances = open(path, 'r')

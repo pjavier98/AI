@@ -64,7 +64,10 @@ def hill_climbing(graph, begin, distances_list, amount_permutations):
 
 def main():
   print('Select the start city: [1-10]: ', end='')
-  begin = read_city()
+  begin = read_input(0, 10)
+
+  print('Select the numbers of permutations: [0-10e6]: ', end='')
+  amount_permutations = read_input(0, 1000000)
 
   distances_list = read_files('files/distances.txt')
 
@@ -77,5 +80,5 @@ def main():
   search_hamiltonian_cycle(graph, initial_state, begin, distances_list)
 
   graph.print_best_way(1)
-  hill_climbing(graph, begin, distances_list, 100000)
+  hill_climbing(graph, begin, distances_list, amount_permutations)
 main()
