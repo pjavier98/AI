@@ -13,12 +13,19 @@ e conhecimento, no formato de **regras e padrões**, a partir de grandes bases d
 Etapa principal do processo de KDD(Knowledge Discovery in Databases)(Descoberta de conhecimento em Bases de Dados), na qual é realizada a busca por novas informações e conhecimento.
 
 O processo de **KDD** é composto por seis fases(Navathe):
-* Seleção dos dados;
-* Limpeza dos dados;
-* Enriquecimento dos dados;
-* Transformação dos dados;
-* **Mineração dos dados**;
-* Apresentação e análise dos resultados.
+1. Seleção dos dados;
+2. Limpeza dos dados;
+3. Enriquecimento dos dados;
+4. Transformação dos dados;
+5. **Mineração dos dados**;
+6. Apresentação e análise dos resultados.
+
+#### Fases:
+1. Seleção (Selection): esta etapa consiste em selecionar um conjunto ou subconjunto de dados que farão parte da análise. As fontes de dados podem ser variadas (planilhas, sistemas gerenciais, data warehouses) e possuir dados com formatos diferentes (estruturados, semiestruturados e não-estruturados).
+2. Processamento (Preprocessing): esta etapa consiste em fazer a verificação da qualidade dos dados armazenados. A base passa por um processo de limpar, corrigir ou remover dados inconsistentes, verificar dados ausentes ou incompletos, identificar anomalias (outliers).
+3. Transformação (Transformation): esta etapa consiste em aplicar técnicas de transformação como: normalização, agregação, criação de novos atributos, redução e sintetização dos dados. Aqui os dados ficam disponíveis agrupados em um mesmo local para a aplicação dos modelos de análise.
+4. Mineração de Dados (Data Mining): esta etapa consiste em construir modelos ou aplicar técnicas de mineração de dados. Essas técnicas têm por objetivo (1) verificar uma hipótese, (2) descobrir novos padrões de forma autônoma. Além disso, a descoberta pode ser dividida em: preditiva e descritiva. Esses modelos geralmente são aplicados e refeitos inúmeras vezes dependendo do objetivo do projeto.
+5. Interpretação e Avaliação (Interpretation / Evaluation): esta etapa consiste em avaliar o desempenho do modelo, aplicando em cima de dados que não foram utilizados na fase de treinamento ou mineração. A validação pode ser feita de diversas formas, algumas delas são: utilizar medidas estatísticas, passar pela avaliação dos profissionais de negócio.
 
 ## Tarefas em Mineração de Dados:
 * Regras de associação;
